@@ -1,22 +1,26 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgFor, NgIf } from "@angular/common";
+import { Component } from "@angular/core";
+import { ItemComponent } from "./item/item.component";
+import { Item } from "./item";
+
 
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [NgFor,NgIf, ItemComponent]
 })
 export class AppComponent {
-  title = 'todo';
+  title = "todo";
+
   filter: "all" | "active" | "done" = "all";
 
   allItems = [
-    { description: "Kind abhollen", done: true },
-    { description: "Yoga", done: false },
-    { description: "Shopping", done: false },
-    { description: "Homework", done: false },
+    { description: "eat", done: true },
+    { description: "sleep", done: false },
+    { description: "play", done: false },
+    { description: "laugh", done: false },
   ];
 
   get items() {
@@ -27,11 +31,15 @@ export class AppComponent {
       this.filter === "done" ? item.done : !item.done
     );
   }
+
   addItem(description: string) {
     this.allItems.unshift({
       description,
       done: false
     });
   }
-  
+  remove(item: Item) {
+    this.allItems.splice(this.allItems.indexOf(item), 1);
+  }
+
 }
